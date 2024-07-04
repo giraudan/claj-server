@@ -2,6 +2,7 @@ package com.xpdustry.claj.server;
 
 import arc.struct.IntMap;
 import arc.util.CommandHandler;
+import arc.util.CommandHandler.Command;
 import arc.util.CommandHandler.CommandResponse;
 import arc.util.CommandHandler.ResponseType;
 import arc.util.Log;
@@ -30,7 +31,7 @@ class Control {
         final CommandResponse response = handler.handleMessage(command);
 
         if (response.type == ResponseType.unknownCommand) {
-            final String closest = handler.getCommandList().map((CommandHandler.Command cmd) -> cmd.text).min((String cmd) -> Strings.levenshtein(cmd, command));
+            final String closest = handler.getCommandList().map((Command cmd) -> cmd.text).min((String cmd) -> Strings.levenshtein(cmd, command));
             Log.err("Command not found. Did you mean @?", closest);
         } else if (response.type != ResponseType.noCommand && response.type != ResponseType.valid)
             Log.err("Too @ command arguments.", response.type == ResponseType.fewArguments ? "few" : "many");
@@ -39,7 +40,7 @@ class Control {
     private void registerCommands() {
         handler.register("help", "Display the command list.", (final String[] args) -> {
             Log.info("Commands:");
-            handler.getCommandList().each((CommandHandler.Command command) -> Log.info("  &b&lb@@&fr - @",
+            handler.getCommandList().each((Command command) -> Log.info("  &b&lb@@&fr - @",
                     command.text, command.paramText.isEmpty() ? "" : " &lc&fi" + command.paramText, command.description));
         });
 

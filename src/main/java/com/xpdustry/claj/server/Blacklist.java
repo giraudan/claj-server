@@ -23,7 +23,7 @@ public class Blacklist {
             });
 
             Log.info("Added @ GitHub Actions IPs to blacklist.", ips.size);
-        }, (Throwable error) -> Log.err("Failed to fetch GitHub Actions IPs", error));
+        }, (final Throwable error) -> Log.err("Failed to fetch GitHub Actions IPs", error));
     }
 
     public static void add(final String ip) {
